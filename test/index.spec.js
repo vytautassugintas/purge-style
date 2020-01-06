@@ -1,3 +1,5 @@
+const { findAllClassesInStyleFile } = require("../index");
+
 const style = `
 .title {
     color: #ddd
@@ -25,8 +27,8 @@ export const Title: FunctionComponent<Props> = ({ title }) => {
 };
 `;
 
-describe("_", () => {
-  it("should pass", () => {
-    expect(true).toEqual(true);
+describe("findAllClasses", () => {
+  it("should find all class names from style file", () => {
+    expect(findAllClassesInStyleFile(style)).toEqual(["title", "header"]);
   });
 });
