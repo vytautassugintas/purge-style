@@ -1,0 +1,19 @@
+{
+  "name": "purge-style",
+  "version": "0.0.0",
+  "description": "Should remove unused classes from style files, when css modules is used",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vytautassugintas/purge-style.git"
+  },
+  "author": "Vytautas Sugintas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vytautassugintas/purge-style/issues"
+  },
+  "homepage": "https://github.com/vytautassugintas/purge-style#readme"
+}
