@@ -1,2 +1,2 @@
-# style-terminator
+# purge-style
 purge-style
