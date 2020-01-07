@@ -4,7 +4,7 @@
   "description": "Should remove unused classes from style files, when css modules is used",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/vytautassugintas/purge-style/issues"
   },
-  "homepage": "https://github.com/vytautassugintas/purge-style#readme"
+  "homepage": "https://github.com/vytautassugintas/purge-style#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }
