@@ -1,4 +1,4 @@
-const { createAST } = require("../index");
+const { createAST, traverseAST } = require("../index");
 
 const style = `
 .title {
@@ -27,8 +27,33 @@ export const Title: FunctionComponent<Props> = ({ title }) => {
 };
 `;
 
+const ast = createAST(file);
+
 describe("createAST", () => {
-  it("s", () => {
-    expect(createAST(file).type).toEqual("File");
+  it("it just should work", () => {
+    expect(ast.type).toEqual("File");
+  });
+});
+
+describe("traverse", () => {
+  it("find used classes", () => {
+    const usedClasses = [];
+    let styleImportName;
+    traverseAST(ast, {
+      ImportDeclaration: ({ node: { source, specifiers } }) => {
+        // console.log(source.value);
+        if (source.value.includes(".scss")) {
+          styleImportName = specifiers.find(
+            node => node.type === "ImportDefaultSpecifier"
+          ).local.name;
+        }
+      },
+      MemberExpression: ({ node: { object, property } }) => {
+        if (object.name === styleImportName) {
+          usedClasses.push(property.name);
+        }
+      }
+    });
+    expect(usedClasses).toEqual(["title"]);
   });
 });
