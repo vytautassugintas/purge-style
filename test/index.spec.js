@@ -1,4 +1,4 @@
-const { createAST, traverseAST } = require("../index");
+const { findUsedClasses } = require("../index");
 
 const style = `
 .title {
@@ -27,32 +27,8 @@ export const Title: FunctionComponent<Props> = ({ title }) => {
 };
 `;
 
-const ast = createAST(file);
-
-describe("createAST", () => {
-  it("it just should work", () => {
-    expect(ast.type).toEqual("File");
-  });
-});
-
-describe("traverse", () => {
-  it("find used classes", () => {
-    const usedClasses = [];
-    let styleImportName;
-    traverseAST(ast, {
-      ImportDeclaration: ({ node: { source, specifiers } }) => {
-        if (source.value.includes(".scss")) {
-          styleImportName = specifiers.find(
-            node => node.type === "ImportDefaultSpecifier"
-          ).local.name;
-        }
-      },
-      MemberExpression: ({ node: { object, property } }) => {
-        if (object.name === styleImportName) {
-          usedClasses.push(property.name);
-        }
-      }
-    });
-    expect(usedClasses).toEqual(["title"]);
+describe("purge-style", () => {
+  it("should find used classes", () => {
+    expect(findUsedClasses(file)).toEqual(["title"]);
   });
 });
