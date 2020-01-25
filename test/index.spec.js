@@ -1,7 +1,4 @@
-const {
-  findAllClassesInStyleFile,
-  findUsedClassesInSourceFile
-} = require("../index");
+const { createAST } = require("../index");
 
 const style = `
 .title {
@@ -30,14 +27,8 @@ export const Title: FunctionComponent<Props> = ({ title }) => {
 };
 `;
 
-describe("findAllClasses", () => {
-  it("should find all class names from style file", () => {
-    expect(findAllClassesInStyleFile(style)).toEqual(["title", "header"]);
-  });
-});
-
-describe("findUsedClassesInSourceFile", () => {
+describe("createAST", () => {
   it("s", () => {
-    expect(findUsedClassesInSourceFile(file)).toEqual(["title"]);
+    expect(createAST(file).type).toEqual("File");
   });
 });
