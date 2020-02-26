@@ -34,9 +34,7 @@ function findClasses(file) {
   const { cssRules } = CSSOM.parse(file);
   const classes = cssRules.map(rule => rule.selectorText);
 
-  return {
-    classes
-  };
+  return { classes };
 }
 
 function findUnusedClasses({ classes, usedClasses }) {
@@ -45,8 +43,8 @@ function findUnusedClasses({ classes, usedClasses }) {
   );
 
   const unusedClasses = classNames
-    .filter(x => !usedClasses.includes(x))
-    .concat(usedClasses.filter(x => !classNames.includes(x)));
+    .filter(c => !usedClasses.includes(c))
+    .concat(usedClasses.filter(c => !classNames.includes(c)));
 
   return { unusedClasses };
 }

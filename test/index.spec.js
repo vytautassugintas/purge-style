@@ -29,16 +29,17 @@ export const Title: FunctionComponent<Props> = ({ title }) => {
 
 describe("purge-style", () => {
   it("should find used classes", () => {
-    expect(findUsedClasses(file)).toEqual({ usedClasses: ["title"] });
+    const { usedClasses } = findUsedClasses(file);
+    expect(usedClasses).toEqual(["title"]);
   });
   it("should find classnames in style file", () => {
-    expect(findClasses(style)).toEqual({ classes: [".title", ".header"] });
+    const { classes } = findClasses(style);
+    expect(classes).toEqual([".title", ".header"]);
   });
   it("should find unused classes", () => {
-    const { usedClasses } = findUsedClasses(file);
     const { classes } = findClasses(style);
+    const { usedClasses } = findUsedClasses(file);
     const { unusedClasses } = findUnusedClasses({ classes, usedClasses });
-
     expect(unusedClasses).toEqual(["header"]);
   });
 });
