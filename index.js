@@ -1,8 +1,9 @@
-const { parse } = require("@babel/parser");
+const babelParser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
+const CSSOM = require("cssom");
 
 function findUsedClasses(file) {
-  const ast = parse(file, {
+  const ast = babelParser.parse(file, {
     sourceType: "module",
     plugins: ["jsx", "typescript"]
   });
@@ -29,6 +30,16 @@ function findUsedClasses(file) {
   return { usedClasses };
 }
 
+function findClasses(file) {
+  const { cssRules } = CSSOM.parse(file);
+  const classes = cssRules.map(rule => rule.selectorText);
+
+  return {
+    classes
+  };
+}
+
 module.exports = {
-  findUsedClasses
+  findUsedClasses,
+  findClasses
 };
