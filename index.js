@@ -7,25 +7,26 @@ function findUsedClasses(file) {
     plugins: ["jsx", "typescript"]
   });
 
-  const usedClasses = [];
   let styleImportName;
+  let usedClasses = [];
 
   traverse(ast, {
-    ImportDeclaration: ({ node: { source, specifiers } }) => {
+    ImportDeclaration: ({ node }) => {
+      const { source, specifiers } = node;
       if (source.value.includes(".scss")) {
         styleImportName = specifiers.find(
-          node => node.type === "ImportDefaultSpecifier"
+          ({ type }) => type === "ImportDefaultSpecifier"
         ).local.name;
       }
     },
-    MemberExpression: ({ node: { object, property } }) => {
+    MemberExpression: ({ node: { object, property }, ...rest }) => {
       if (object.name === styleImportName) {
-        usedClasses.push(property.name);
+        usedClasses = [...usedClasses, property.name];
       }
     }
   });
 
-  return usedClasses;
+  return { usedClasses };
 }
 
 module.exports = {

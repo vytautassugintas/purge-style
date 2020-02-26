@@ -29,6 +29,6 @@ export const Title: FunctionComponent<Props> = ({ title }) => {
 
 describe("purge-style", () => {
   it("should find used classes", () => {
-    expect(findUsedClasses(file)).toEqual(["title"]);
+    expect(findUsedClasses(file)).toEqual({ usedClasses: ["title"] });
   });
 });
