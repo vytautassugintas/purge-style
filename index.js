@@ -39,7 +39,20 @@ function findClasses(file) {
   };
 }
 
+function findUnusedClasses({ classes, usedClasses }) {
+  const classNames = classes.map(claz =>
+    claz.charAt(0) === "." ? claz.slice(1) : claz
+  );
+
+  const unusedClasses = classNames
+    .filter(x => !usedClasses.includes(x))
+    .concat(usedClasses.filter(x => !classNames.includes(x)));
+
+  return { unusedClasses };
+}
+
 module.exports = {
   findUsedClasses,
-  findClasses
+  findClasses,
+  findUnusedClasses
 };

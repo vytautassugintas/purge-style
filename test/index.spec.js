@@ -1,4 +1,4 @@
-const { findUsedClasses, findClasses } = require("../index");
+const { findUsedClasses, findClasses, findUnusedClasses } = require("../index");
 
 const style = `
 .title {
@@ -33,5 +33,12 @@ describe("purge-style", () => {
   });
   it("should find classnames in style file", () => {
     expect(findClasses(style)).toEqual({ classes: [".title", ".header"] });
+  });
+  it("should find unused classes", () => {
+    const { usedClasses } = findUsedClasses(file);
+    const { classes } = findClasses(style);
+    const { unusedClasses } = findUnusedClasses({ classes, usedClasses });
+
+    expect(unusedClasses).toEqual(["header"]);
   });
 });
