@@ -13,6 +13,7 @@ const style = `
 
 const file = `
 import React, { FunctionComponent } from 'react';
+import { createFragmentContainer, graphql } from 'react-relay';
 
 import styles from './UploadModalHeader.scss';
 
@@ -20,11 +21,19 @@ type Props = {
     title: string;
 };
 
-export const Title: FunctionComponent<Props> = ({ title }) => {
+const TitleComponent: FunctionComponent<Props> = ({ item }) => {
     return (
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={styles.title}>{item.title}</h1>
     );
 };
+
+export const Title = createFragmentContainer(SwatchSelectorMinimalComponent, {
+    item: graphql\`
+        fragment Title_item on Item {
+            title
+        }
+    \`,
+});
 `;
 
 describe("purge-style", () => {
