@@ -12,12 +12,13 @@ function findUsedClasses(file) {
   let usedClasses = [];
 
   traverse(ast, {
-    ImportDeclaration: ({ node }) => {
-      const { source, specifiers } = node;
-      if (source.value.includes(".scss")) {
-        styleImportName = specifiers.find(
-          ({ type }) => type === "ImportDefaultSpecifier"
-        ).local.name;
+    ImportDeclaration: path => {
+      if (path.node.source.value.includes(".scss")) {
+        path.traverse({
+          ImportDefaultSpecifier: path => {
+            styleImportName = path.node.local.name;
+          }
+        });
       }
     },
     MemberExpression: ({ node: { object, property }, ...rest }) => {
