@@ -43,12 +43,15 @@ describe("purge-style", () => {
   });
   it("should find classnames in style file", () => {
     const { classes } = findClasses(style);
-    expect(classes).toEqual([".title", ".header"]);
+    expect(classes.map(c => c.name)).toEqual(["title", "header"]);
   });
   it("should find unused classes", () => {
     const { classes } = findClasses(style);
     const { usedClasses } = findUsedClasses(file);
     const { unusedClasses } = findUnusedClasses({ classes, usedClasses });
     expect(unusedClasses).toEqual(["header"]);
+  });
+  it("should remove classes from file", () => {
+    expect(false).toEqual(true);
   });
 });
