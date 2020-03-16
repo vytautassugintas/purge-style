@@ -33,16 +33,22 @@ function findUsedClasses(file) {
 
 function findClasses(file) {
   const { cssRules } = CSSOM.parse(file);
-  const classes = cssRules.map(rule => rule.selectorText);
+  const classes = cssRules.map(rule => ({
+    name:
+      rule.selectorText.charAt(0) === "."
+        ? rule.selectorText.slice(1)
+        : rule.selectorText,
+    location: {
+      start: rule.__starts,
+      end: rule.__ends
+    }
+  }));
 
   return { classes };
 }
 
 function findUnusedClasses({ classes, usedClasses }) {
-  const classNames = classes.map(claz =>
-    claz.charAt(0) === "." ? claz.slice(1) : claz
-  );
-
+  const classNames = classes.map(claz => claz.name);
   const unusedClasses = classNames
     .filter(c => !usedClasses.includes(c))
     .concat(usedClasses.filter(c => !classNames.includes(c)));
@@ -50,8 +56,19 @@ function findUnusedClasses({ classes, usedClasses }) {
   return { unusedClasses };
 }
 
+function removeClasses({ sourceFile, styleFile }) {
+  // const { classes } = findClasses(styleFile);
+  // const { usedClasses } = findUsedClasses(sourceFile);
+  // const { unusedClasses } = findUnusedClasses({ classes, usedClasses });
+  // const unusedClassesLocations = classes
+  //   .filter(clazz => unusedClasses.includes(clazz.name))
+  //   .map(clazz => clazz.location);
+  // return unusedClassesLocations;
+}
+
 module.exports = {
   findUsedClasses,
   findClasses,
-  findUnusedClasses
+  findUnusedClasses,
+  removeClasses
 };
