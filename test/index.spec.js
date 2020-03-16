@@ -1,13 +1,18 @@
-const { findUsedClasses, findClasses, findUnusedClasses } = require("../index");
+const {
+  findUsedClasses,
+  findClasses,
+  findUnusedClasses,
+  removeClasses
+} = require("../index");
 
 const style = `
 .title {
-    color: #ddd
+    color: #ddd;
     font-size: 18px;
 }
 
 .header {
-    color: #ccc
+    color: #ccc;
     font-size: 24px;
 }`;
 
@@ -52,6 +57,9 @@ describe("purge-style", () => {
     expect(unusedClasses).toEqual(["header"]);
   });
   it("should remove classes from file", () => {
-    expect(false).toEqual(true);
+    console.log(style.length);
+    expect(removeClasses({ sourceFile: file, styleFile: style })).toEqual(
+      ".header {\n    color: #ccc;\n    font-size: 24px;\n}"
+    );
   });
 });

@@ -43,7 +43,6 @@ function findClasses(file) {
       end: rule.__ends
     }
   }));
-
   return { classes };
 }
 
@@ -57,13 +56,20 @@ function findUnusedClasses({ classes, usedClasses }) {
 }
 
 function removeClasses({ sourceFile, styleFile }) {
-  // const { classes } = findClasses(styleFile);
-  // const { usedClasses } = findUsedClasses(sourceFile);
-  // const { unusedClasses } = findUnusedClasses({ classes, usedClasses });
-  // const unusedClassesLocations = classes
-  //   .filter(clazz => unusedClasses.includes(clazz.name))
-  //   .map(clazz => clazz.location);
-  // return unusedClassesLocations;
+  const { classes } = findClasses(styleFile);
+  const { usedClasses } = findUsedClasses(sourceFile);
+  const { unusedClasses } = findUnusedClasses({ classes, usedClasses });
+  const unusedClassesLocations = classes
+    .filter(clazz => unusedClasses.includes(clazz.name))
+    .map(clazz => clazz.location);
+
+  let modifiedStyleFile;
+
+  unusedClassesLocations.forEach(location => {
+    modifiedStyleFile = styleFile.slice(location.start, location.end);
+  });
+
+  return modifiedStyleFile;
 }
 
 module.exports = {
